@@ -13,7 +13,8 @@ const ApplicationSchema = new mongoose.Schema({
     require: true,
     ref: "User",
   },
-  questions: []
+  questions: [],
+  timeline: []
 });
 
 const Application = mongoose.model("Application", ApplicationSchema);

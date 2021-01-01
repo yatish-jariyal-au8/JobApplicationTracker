@@ -6,7 +6,7 @@ const cors = require('cors')
 
 const usersRouter = require('./routes/users');
 const applicationRouter = require('./routes/application');
-
+const questionRouter = require("./routes/question")
 const app = express();
 
 app.use(cors())
@@ -20,8 +20,9 @@ const mongoUri = process.env.mongoUri
 //routes
 app.use('/users', usersRouter);
 app.use('/application', applicationRouter)
+app.use('/question', questionRouter)
 
-mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
+mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false}, () => {
   console.log("mongo db connection successful")
 })
 
