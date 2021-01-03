@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const generateToken = require("../utils/generateToken");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -21,7 +22,16 @@ router.post("/register", (req, res) => {
       const newUser = new User({ email, name, password });
       newUser
         .save()
-        .then(() => res.send({ status: true, message: "Success" }))
+        .then(() =>
+          res.send({
+            status: true,
+            message: "Success",
+            _id: newUser._id,
+            name: newUser.name,
+            email: newUser.email,
+            token: generateToken(newUser._id),
+          })
+        )
         .catch((err) => res.status(400).send({ status: false, message: err }));
     }
   });
@@ -37,7 +47,14 @@ router.post("/login", (req, res) => {
     if (user) {
       //check if password matches
       if (user.password === password) {
-        res.send({ status: true, message: "Success" });
+        res.send({
+          status: true,
+          message: "Success",
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          token: generateToken(user._id),
+        });
       } else {
         res
           .status(400)
@@ -48,5 +65,6 @@ router.post("/login", (req, res) => {
     }
   });
 });
+
 
 module.exports = router;

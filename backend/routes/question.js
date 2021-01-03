@@ -3,8 +3,9 @@ const router = express.Router()
 const User = require('../models/User')
 const Question = require('../models/Question')
 const Application = require('../models/Application')
+const protect = require("../middlewares/authMiddleware")
 
-router.post("/add", (req, res) => {
+router.post("/add", protect, (req, res) => {
     const {email, appId, question, answer} = req.body
 
     User.findOne({email})
