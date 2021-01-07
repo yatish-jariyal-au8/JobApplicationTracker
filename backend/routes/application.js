@@ -42,7 +42,7 @@ router.post("/create", protect, (req, res) => {
 // get all applicatios of a user
 router.post("/get", protect, (req, res) => {
   const { email } = req.body;
-
+  
   User.findOne({ email }).then((user) => {
     if (user) {
       Application.find({ user })

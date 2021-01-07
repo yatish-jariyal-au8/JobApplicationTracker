@@ -3,6 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose')
 require('dotenv').config()
 const cors = require('cors')
+const bodyParser = require('body-parser')
+const fileupload = require('express-fileupload')
 
 const usersRouter = require('./routes/users');
 const applicationRouter = require('./routes/application');
@@ -11,8 +13,9 @@ const app = express();
 
 app.use(cors())
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(fileupload())
 
 const port = process.env.PORT || 5000
 const mongoUri = process.env.mongoUri
