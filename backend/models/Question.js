@@ -4,11 +4,7 @@ const questionSchema = new mongoose.Schema(
   {
     question: String,
     answer: String,
-    addedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      require: true,
-      ref: "User",
-    },
+    addedBy: String,
   },
   {
     timestamps: true,

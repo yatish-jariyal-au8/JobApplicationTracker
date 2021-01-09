@@ -72,7 +72,6 @@ router.get("/get/:id", protect, (req, res) => {
 router.put("/edit/:id", protect, (req, res) => {
   Application.findOneAndUpdate({ _id: req.params.id }, { ...req.body }).then(
     (resp) => {
-      console.log("update success");
       res.send({ status: true, message: "Success" });
     }
   );
@@ -123,7 +122,6 @@ router.delete("/:appId/delete/:id", protect, (req, res) => {
 router.put("/:appId/edit/:id", protect, (req, res) => {
   const { appId, id } = req.params;
   const { question, answer } = req.body;
-  console.log("question", question, answer);
 
   Question.findByIdAndUpdate(id, { question, answer })
     .then(async () => {

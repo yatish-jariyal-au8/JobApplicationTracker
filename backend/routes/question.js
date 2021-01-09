@@ -10,7 +10,7 @@ router.post("/add", protect, (req, res) => {
 
   User.findOne({ email }).then((user) => {
     if (user) {
-      const newQuestion = new Question({ question, answer, addedBy: user });
+      const newQuestion = new Question({ question, answer, addedBy: user.name });
       newQuestion.save().then(() => {
         //add question to the application
         Application.findById(appId).then((app) => {
@@ -21,12 +21,10 @@ router.post("/add", protect, (req, res) => {
               res.send({ status: true, data: app.questions });
             })
             .catch((err) =>
-              res
-                .status(400)
-                .send({
-                  status: false,
-                  message: "Question could not get added",
-                })
+              res.status(400).send({
+                status: false,
+                message: "Question could not get added",
+              })
             );
         });
       });
@@ -37,5 +35,19 @@ router.post("/add", protect, (req, res) => {
     }
   });
 });
+
+router.get("/get", (req, res) => {
+  Question.find().then((questions) => {
+    res.send({ status: true, data: questions });
+  });
+});
+
+router.get("/filter/:query", (req, res) => {
+  Question.find({question: {"$regex": req.params.query, "$options": "i"}})
+  .then(questions => {
+    res.send({status: true, data: questions})
+  })
+  .catch(err => res.status(400).send({status: false, message: err}))
+})
 
 module.exports = router;
