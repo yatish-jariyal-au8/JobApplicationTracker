@@ -5,7 +5,6 @@ require('dotenv').config()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const fileupload = require('express-fileupload')
-const multer = require("multer")
 
 const usersRouter = require('./routes/users');
 const applicationRouter = require('./routes/application');
@@ -18,7 +17,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(fileupload())
-app.use(multer({dest: './routes/uploads/', rename: (filename, fieldname) => filename}).any())
 
 const port = process.env.PORT || 5000
 const mongoUri = process.env.mongoUri

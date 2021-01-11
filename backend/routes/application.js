@@ -14,6 +14,7 @@ router.post("/create", protect, (req, res) => {
     salary,
     url,
     email,
+    date,
   } = req.body;
 
   User.findOne({ email }).then((user) => {
@@ -26,6 +27,7 @@ router.post("/create", protect, (req, res) => {
         salary,
         url,
         user,
+        date: new Date(date),
         timeline: [{ status, time: new Date() }],
       });
       newApplication
@@ -42,7 +44,7 @@ router.post("/create", protect, (req, res) => {
 // get all applicatios of a user
 router.post("/get", protect, (req, res) => {
   const { email } = req.body;
-  
+
   User.findOne({ email }).then((user) => {
     if (user) {
       Application.find({ user })

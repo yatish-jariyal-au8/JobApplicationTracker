@@ -3,11 +3,6 @@ const router = express.Router();
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
-
 // register
 router.post("/register", (req, res) => {
   // email, password, name

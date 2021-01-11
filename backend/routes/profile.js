@@ -3,7 +3,6 @@ const router = express.Router();
 const protect = require("../middlewares/authMiddleware");
 const fs = require("fs");
 const User = require("../models/User");
-const Image = require("../models/Image");
 
 router.post("/update/:id", protect, async (req, res) => {
   const { name, email, link } = req.body;
@@ -25,7 +24,7 @@ router.post("/update/:id", protect, async (req, res) => {
 
 router.get("/get/resume/:id", protect, (req, res) => {
   const dir = `${__dirname}/uploads/${req.params.id}`;
-  if (dir) {
+  if (fs.existsSync(dir)) {
     const fileList = fs.readdir(dir, (err, files) => {
       if (err) {
         res
@@ -38,7 +37,7 @@ router.get("/get/resume/:id", protect, (req, res) => {
 });
 
 router.post("/uploadResume/:id", protect, (req, res) => {
-  const file = req.files.resume;
+  const file = req.files.resume
   const dir = `${__dirname}/uploads/${req.params.id}`;
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -68,61 +67,5 @@ router.get("/download/resume/:id/:file", (req, res) => {
   const dir = `${__dirname}/uploads/${req.params.id}/${req.params.file}`;
   res.download(dir)
 })
-
-router.post("/uploadProfilePhoto/:id", protect, (req, res) => {
-  const file = req.files.profilePhoto;
-  const dir = `${__dirname}/uploads/${req.params.id}`;
-  const splitted = file.name.split(".")
-  const extension = splitted[splitted.length-1]
-
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
-  file.mv(`${dir}/profilePhoto.${extension}`, function (err, data) {
-    if (err) {
-      console.log("err", err);
-      return res.status(500).send(err);
-    }
-    console.log("file", file)
-    const imgData = {data: new Buffer.from(file.data, 'base64'), contentType: file.mimetype}
-    console.log("img data", imgData)
-    const image = new Image()
-    image.data = fs.readFileSync(`${dir}/profilePhoto.${extension}`)
-    image.contentType = file.mimetype
-    console.log("image", image)
-    image.save()
-    .then(data => res.send({status: true, message: "success"}))
-  });
-});
-
-router.get("/download/profilePhoto/:id", (req, res) => {
-  const dir = `${__dirname}/uploads/${req.params.id}`;
-  if (!fs.existsSync(dir)) {
-    res.send({status: true, data: null})
-  }
-
-  if (dir) {
-    const fileList = fs.readdir(dir, (err, files) => {
-      if (err) {
-        res
-          .status(400)
-          .send({ status: false, message: "File fetching failed" });
-      }
-      const filtered = files.filter((name) => name.includes("profilePhoto"))
-
-      if(filtered.length === 0) {
-        res.send({status: true, data: null})
-      }
-      const fileName = filtered[0]
-      console.log("filename", fileName)
-      console.log("downlaoding",`${dir}/${fileName}` )
-      res.send({status: true, data: `${dir}/${fileName}`})
-    });
-  } else res.send({ status: true, data: null });
-  
-})
-
-
-
 
 module.exports = router;
