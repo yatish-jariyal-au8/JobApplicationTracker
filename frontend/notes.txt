@@ -1,0 +1,47 @@
+new application fields: 
+1. Company
+2. Designation
+3. Job listing URL
+4. Salary -> range
+5. Location
+6. Interview dates/ questions -> calender to log interview dates and reminders
+7. Status
+
+
+-> add tabs (1. Default (to show form) 2. Interview Details) 
+2. Interview Details tab ->
+calender view
+questions -> 
+textfield (question)    textfield (ans)     (delete button)
+plus button
+
+Plan:
+23 Dec -> Finish Interview Thing
+24 Dec -> Data Visualization
+25 Dec -> Resume, Cover letter -> upload download, Google Login, JWT
+26 Dec -> EXAM
+
+** Features:
+1. Success error message toasts - DONE
+7. Data Visualization -> (react-apexcharts) - DONE
+8. Drag and drop - DONE
+3. Google login - DONE
+5. Timeline -> for each Job application DONE
+8. Profile Page -> DONE
+4. Multiple resumes and cover letters -> attach them to job application - DONE
+9. Styling - DONE
+2. Add to calendar links when dates are added -> Add reminders on google calender - TODO
+10. Posts - TODO
+11. Responsive - TODO
+12. console logs remove, code clean.
+
+
+** Bugs:
+4. toast on profile
+3. PWA
+4. Sign in issue
+
+** Charts
+1. Number of applications in each category (Pie chart) DONE
+2. graph of each type of application (one line for each status) DONE
+3. accept rate vs reject rate (bar graph) DONE
